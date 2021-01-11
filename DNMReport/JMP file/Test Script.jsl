@@ -1,0 +1,70 @@
+q_tp =
+	"SELECT 
+		'DMT1' as SitePlant
+		, WW = 	CONVERT(VARCHAR(4),datepart(yyyy, cast ( DATEADD(day, 6 - (DATEPART(weekday, [TimeStamp]) + @@DATEFIRST - 2) % 7, [TimeStamp] ) as Date) ),2) + '_' 
+		+ RIGHT( '0' + CONVERT(VARCHAR(2),datepart(isoww, cast ( DATEADD(day, 6 - (DATEPART(weekday, [TimeStamp]) + @@DATEFIRST - 2) % 7, [TimeStamp] ) as Date) ),2) ,2)    
+		, CONVERT(Date,DATEADD(dd,DATEDIFF(dd,0,[TimeStamp]),0)) TimeStampDate
+		, DATEPART(HH, TimeStamp) as Hour
+		, WIP_Level = CASE			
+			WHEN B.Number >= '61024' and B.Number < '61175'  THEN 'FS050-SG'
+			WHEN B.Number >= '61175' and B.Number < '61382'  THEN 'FS050'
+			WHEN B.Number >= '61382' and B.Number < '62010'  THEN 'FS100'
+			WHEN B.Number >= '62010' and B.Number < '62520'  THEN 'FS200' 
+			WHEN B.Number >= '62520' and B.Number < '63025'  THEN 'FS250' 
+			WHEN B.Number >= '63025' and B.Number < '63175'  THEN 'FS260' 
+			WHEN B.Number >= '63175' and B.Number < '64025'  THEN 'FS280'
+			WHEN B.Number >= '64025' and B.Number < '64200'  THEN 'FS300'   
+			
+			WHEN B.Number >= '64200' and B.Number < '64324'  THEN 'FS350'
+			WHEN B.Number >= '64325' and B.Number < '64392'  THEN 'FS350'
+			WHEN B.Number >= '64467' and B.Number < '67035'  THEN 'FS350' 
+	  
+			WHEN B.Number >= '64392' and B.Number < '64467'  THEN 'FS350-CG' 
+			WHEN B.Number = '64324' THEN 'FS350-CG'
+			  
+			WHEN B.Number >= '67035' and B.Number < '68040'  THEN 'FS400'  
+			WHEN B.Number >= '68040' and B.Number < '72100'  THEN 'FS500'
+			
+			WHEN B.Number >= '72100' THEN 'Others'
+		END
+		, B.Name AS ProcessName
+		, A.Location
+		, B.Number AS ProcessNumber
+		, COUNT(*) AS PartsProduced
+		
+	FROM 
+		ODS.mfg.ProcessHistoryPdrPartProducedEvent as A 
+		LEFT OUTER JOIN ODS.mfg.GlobalEquipmentAlias D
+			ON A.SourceLocation = D.Alias
+		LEFT OUTER JOIN ODS.mfg.GlobalEquipment C
+			ON C.EquipmentId = D.EquipmentId
+		LEFT OUTER JOIN ODS.mfg.GlobalProcess B
+			ON C.ProcessId = B.ProcessId
+	WHERE 
+		TimeStamp > DATEADD(HOUR, -24, GETDATE())
+		AND ( B.Number in (61100, 61250, 61400, 62342, 62642, 63050, 63675, 64042, 64202, 64417, 67040)
+			OR ( B.Number = 68575 AND  ( A.[Location] like '%INFEED%' OR A.[Location] like '%LEG%' OR A.[Location] like '%MANUAL')  )
+		)
+		AND NOT(ExitProductStatus = 8)
+		AND NOT(SourceLocation = '')
+		AND ((B.Number >= '61024' and B.Number < '61175') OR (B.Number >= '68040' and B.Number < '72100'))
+	GROUP BY
+		B.Number, -- This is what most people refer to as ProcessId
+		B.Name, 
+		A.Location
+		, DATEPART(HH, TimeStamp)
+		, CONVERT(Date,DATEADD(dd,DATEDIFF(dd,0,[TimeStamp]),0))
+		, CONVERT(VARCHAR(4),datepart(yyyy, cast ( DATEADD(day, 6 - (DATEPART(weekday, [TimeStamp]) + @@DATEFIRST - 2) % 7, [TimeStamp] ) as Date) ),2) + '_' 
+		+ RIGHT( '0' + CONVERT(VARCHAR(2),datepart(isoww, cast ( DATEADD(day, 6 - (DATEPART(weekday, [TimeStamp]) + @@DATEFIRST - 2) % 7, [TimeStamp] ) as Date) ),2) ,2) 
+	ORDER BY 
+		CONVERT(dATE, DATEADD(dd,DATEDIFF(dd,0,[TimeStamp]),0))
+		, B.Number
+	";
+//Extracting data
+servername = Concat( "DRIVER=SQL Server;SERVER=", "DMT1", "MESSQLODS.FS.LOCAL;DATABASE=ODS;Trusted_Connection=Yes" );
+
+dt_tp = Open Database( servername, q_tp, "DMT1 TP data");
+link  = "C:\Users\fs125929\source\repos\DNMReport\DNMReport\JMP file\An23.jmp" ;
+dt_tp << Save( link );
+//SaveTable("DMT1 TP data","C:\Users\fs125929\source\repos\DNMReport\DNMReport\JMP file\An2.jmp");
+//close("DMT1 TP data",NoSave)
