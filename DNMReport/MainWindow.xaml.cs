@@ -15,6 +15,7 @@ using System.Windows.Shapes;
 using DNMReport.Model;
 using DNMReport.Controller;
 using DNMReport.Logfile;
+using System.Threading;
 
 namespace DNMReport
 {
@@ -25,14 +26,61 @@ namespace DNMReport
     {
         public Jobs MainJobs = new Jobs();
         public List<JobsDisplay> ListJobs = new List<JobsDisplay>();
+        EventBroker.EventObserver m_observerLog = null;
+        EventBroker.EventObserver m_observerRunTask = null;
+        EventBroker.EventParam m_timerEvent = null;
+        System.Windows.Forms.Timer tmr = new System.Windows.Forms.Timer();
 
         public MainWindow()
         {
             InitializeComponent();
+
+            m_observerLog = new EventBroker.EventObserver(OnReceiveLog);
+            EventBroker.AddObserver(EventBroker.EventID.etLog, m_observerLog);
+            
+
+            m_observerRunTask = new EventBroker.EventObserver(OnTaskRun);
+            EventBroker.AddObserver(EventBroker.EventID.etRunTask, m_observerRunTask);
             ControllerJobs jobs = new ControllerJobs();
             MainJobs = jobs.GetJobs();
+          //  initlize_timer();
+        }
+        //private void initlize_timer()
+        //{
+        //    tmr.Interval = 1000;
+        //    tmr.Enabled = false;
+        //    tmr.Tick += Tmr_Tick;
+        //    tmr.Start();
+
+        //}
+
+        //private void Tmr_Tick(object sender, EventArgs e)
+        //{
+        //    tmr.Stop();
+           
+
+        //    tmr.Start();
+        //    tmr.Enabled = true;
+        //}
+        private void OnReceiveLog(EventBroker.EventID id, EventBroker.EventParam param)
+        {
+            if (param == null)
+                return;
+          
         }
 
+      
+
+       
+        private void OnTaskRun(EventBroker.EventID id, EventBroker.EventParam param)
+        {
+            if (param == null)
+                return;
+            if (param.ParamString != null)
+            {
+              
+            }
+        }
         private void dtgv_schedule_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
@@ -113,6 +161,12 @@ namespace DNMReport
             jobsDisplay.TimeRun = MainJobs.Schedule.TimeRun;
             ListJobs.Add(jobsDisplay);
             dtgv_schedule.ItemsSource = ListJobs;
+            if (m_timerEvent == null)
+            {
+                m_timerEvent = new EventBroker.EventParam(this, 0);
+                EventBroker.AddTimeEvent(EventBroker.EventID.etRunTask, m_timerEvent, 1000, true);//66분에 한번씩
+                //EventBroker.AddTimeEvent(EventBroker.EventID.etUpdateMe, m_timerEvent, 20000, true);//66분에 한번씩
+            }
 
         }
 

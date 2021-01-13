@@ -1,0 +1,286 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="DNMReportModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="ReportProfile">
+          <Key>
+            <PropertyRef Name="ReportID" />
+          </Key>
+          <Property Name="ReportID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ReportName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ReportPathUploaded" Type="varchar" MaxLength="500" />
+          <Property Name="FileExtension" Type="varchar" MaxLength="20" />
+          <Property Name="CreateTime" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="CreateTimeUtc" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="LastModifiedTime" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="LastModifiedTimeUtc" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="LastModifiedUser" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ReportSchedule">
+          <Key>
+            <PropertyRef Name="ScheduleID" />
+          </Key>
+          <Property Name="ScheduleID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TriggerId" Type="int" Nullable="false" />
+          <Property Name="NAME" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Description" Type="varchar" MaxLength="300" />
+          <Property Name="ActionId" Type="int" />
+          <Property Name="Minute" Type="varchar" MaxLength="10" />
+          <Property Name="Hour" Type="varchar" MaxLength="10" />
+          <Property Name="Day" Type="varchar" MaxLength="10" />
+          <Property Name="Date" Type="varchar" MaxLength="10" />
+          <Property Name="Month" Type="varchar" MaxLength="10" />
+          <Property Name="CreateTime" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="CreateTimeUtc" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="LastModifiedTime" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="LastModifiedTimeUtc" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="LastModifiedUser" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ReportTask">
+          <Key>
+            <PropertyRef Name="TaskId" />
+          </Key>
+          <Property Name="TaskId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TaskName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Description" Type="varchar" MaxLength="300" />
+          <Property Name="ScheduleId" Type="int" Nullable="false" />
+          <Property Name="ReportId" Type="int" Nullable="false" />
+          <Property Name="CreateTime" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="CreateTimeUtc" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="LastModifiedTime" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="LastModifiedTimeUtc" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="LastModifiedUser" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ScheduleAction">
+          <Key>
+            <PropertyRef Name="ActionId" />
+          </Key>
+          <Property Name="ActionId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ActionName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Description" Type="varchar" MaxLength="300" />
+          <Property Name="CreateTime" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="CreateTimeUtc" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="LastModifiedTime" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="LastModifiedTimeUtc" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="LastModifiedUser" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ScheduleTrigger">
+          <Key>
+            <PropertyRef Name="TriggerId" />
+          </Key>
+          <Property Name="TriggerId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TrigerName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Description" Type="varchar" MaxLength="300" />
+          <Property Name="CreateTime" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="CreateTimeUtc" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="LastModifiedTime" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="LastModifiedTimeUtc" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="LastModifiedUser" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityContainer Name="DNMReportModelStoreContainer">
+          <EntitySet Name="ReportProfile" EntityType="Self.ReportProfile" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ReportSchedule" EntityType="Self.ReportSchedule" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ReportTask" EntityType="Self.ReportTask" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ScheduleAction" EntityType="Self.ScheduleAction" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ScheduleTrigger" EntityType="Self.ScheduleTrigger" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DNMReportModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="ReportProfile">
+          <Key>
+            <PropertyRef Name="ReportID" />
+          </Key>
+          <Property Name="ReportID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ReportName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ReportPathUploaded" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="FileExtension" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="CreateTime" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="CreateTimeUtc" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="LastModifiedTime" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="LastModifiedTimeUtc" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="LastModifiedUser" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ReportSchedule">
+          <Key>
+            <PropertyRef Name="ScheduleID" />
+          </Key>
+          <Property Name="ScheduleID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TriggerId" Type="Int32" Nullable="false" />
+          <Property Name="NAME" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="ActionId" Type="Int32" />
+          <Property Name="Minute" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Hour" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Day" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Date" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Month" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="CreateTime" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="CreateTimeUtc" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="LastModifiedTime" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="LastModifiedTimeUtc" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="LastModifiedUser" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ReportTask">
+          <Key>
+            <PropertyRef Name="TaskId" />
+          </Key>
+          <Property Name="TaskId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TaskName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="ScheduleId" Type="Int32" Nullable="false" />
+          <Property Name="ReportId" Type="Int32" Nullable="false" />
+          <Property Name="CreateTime" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="CreateTimeUtc" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="LastModifiedTime" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="LastModifiedTimeUtc" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="LastModifiedUser" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ScheduleAction">
+          <Key>
+            <PropertyRef Name="ActionId" />
+          </Key>
+          <Property Name="ActionId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ActionName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="CreateTime" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="CreateTimeUtc" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="LastModifiedTime" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="LastModifiedTimeUtc" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="LastModifiedUser" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ScheduleTrigger">
+          <Key>
+            <PropertyRef Name="TriggerId" />
+          </Key>
+          <Property Name="TriggerId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TrigerName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="CreateTime" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="CreateTimeUtc" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="LastModifiedTime" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="LastModifiedTimeUtc" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="LastModifiedUser" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityContainer Name="DNMReportEntities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="ReportProfiles" EntityType="Self.ReportProfile" />
+          <EntitySet Name="ReportSchedules" EntityType="Self.ReportSchedule" />
+          <EntitySet Name="ReportTasks" EntityType="Self.ReportTask" />
+          <EntitySet Name="ScheduleActions" EntityType="Self.ScheduleAction" />
+          <EntitySet Name="ScheduleTriggers" EntityType="Self.ScheduleTrigger" />
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DNMReportModelStoreContainer" CdmEntityContainer="DNMReportEntities1">
+          <EntitySetMapping Name="ReportProfiles">
+            <EntityTypeMapping TypeName="DNMReportModel.ReportProfile">
+              <MappingFragment StoreEntitySet="ReportProfile">
+                <ScalarProperty Name="ReportID" ColumnName="ReportID" />
+                <ScalarProperty Name="ReportName" ColumnName="ReportName" />
+                <ScalarProperty Name="ReportPathUploaded" ColumnName="ReportPathUploaded" />
+                <ScalarProperty Name="FileExtension" ColumnName="FileExtension" />
+                <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
+                <ScalarProperty Name="CreateTimeUtc" ColumnName="CreateTimeUtc" />
+                <ScalarProperty Name="LastModifiedTime" ColumnName="LastModifiedTime" />
+                <ScalarProperty Name="LastModifiedTimeUtc" ColumnName="LastModifiedTimeUtc" />
+                <ScalarProperty Name="LastModifiedUser" ColumnName="LastModifiedUser" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ReportSchedules">
+            <EntityTypeMapping TypeName="DNMReportModel.ReportSchedule">
+              <MappingFragment StoreEntitySet="ReportSchedule">
+                <ScalarProperty Name="ScheduleID" ColumnName="ScheduleID" />
+                <ScalarProperty Name="TriggerId" ColumnName="TriggerId" />
+                <ScalarProperty Name="NAME" ColumnName="NAME" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="ActionId" ColumnName="ActionId" />
+                <ScalarProperty Name="Minute" ColumnName="Minute" />
+                <ScalarProperty Name="Hour" ColumnName="Hour" />
+                <ScalarProperty Name="Day" ColumnName="Day" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Month" ColumnName="Month" />
+                <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
+                <ScalarProperty Name="CreateTimeUtc" ColumnName="CreateTimeUtc" />
+                <ScalarProperty Name="LastModifiedTime" ColumnName="LastModifiedTime" />
+                <ScalarProperty Name="LastModifiedTimeUtc" ColumnName="LastModifiedTimeUtc" />
+                <ScalarProperty Name="LastModifiedUser" ColumnName="LastModifiedUser" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ReportTasks">
+            <EntityTypeMapping TypeName="DNMReportModel.ReportTask">
+              <MappingFragment StoreEntitySet="ReportTask">
+                <ScalarProperty Name="TaskId" ColumnName="TaskId" />
+                <ScalarProperty Name="TaskName" ColumnName="TaskName" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="ScheduleId" ColumnName="ScheduleId" />
+                <ScalarProperty Name="ReportId" ColumnName="ReportId" />
+                <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
+                <ScalarProperty Name="CreateTimeUtc" ColumnName="CreateTimeUtc" />
+                <ScalarProperty Name="LastModifiedTime" ColumnName="LastModifiedTime" />
+                <ScalarProperty Name="LastModifiedTimeUtc" ColumnName="LastModifiedTimeUtc" />
+                <ScalarProperty Name="LastModifiedUser" ColumnName="LastModifiedUser" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ScheduleActions">
+            <EntityTypeMapping TypeName="DNMReportModel.ScheduleAction">
+              <MappingFragment StoreEntitySet="ScheduleAction">
+                <ScalarProperty Name="ActionId" ColumnName="ActionId" />
+                <ScalarProperty Name="ActionName" ColumnName="ActionName" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
+                <ScalarProperty Name="CreateTimeUtc" ColumnName="CreateTimeUtc" />
+                <ScalarProperty Name="LastModifiedTime" ColumnName="LastModifiedTime" />
+                <ScalarProperty Name="LastModifiedTimeUtc" ColumnName="LastModifiedTimeUtc" />
+                <ScalarProperty Name="LastModifiedUser" ColumnName="LastModifiedUser" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ScheduleTriggers">
+            <EntityTypeMapping TypeName="DNMReportModel.ScheduleTrigger">
+              <MappingFragment StoreEntitySet="ScheduleTrigger">
+                <ScalarProperty Name="TriggerId" ColumnName="TriggerId" />
+                <ScalarProperty Name="TrigerName" ColumnName="TrigerName" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
+                <ScalarProperty Name="CreateTimeUtc" ColumnName="CreateTimeUtc" />
+                <ScalarProperty Name="LastModifiedTime" ColumnName="LastModifiedTime" />
+                <ScalarProperty Name="LastModifiedTimeUtc" ColumnName="LastModifiedTimeUtc" />
+                <ScalarProperty Name="LastModifiedUser" ColumnName="LastModifiedUser" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="true" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

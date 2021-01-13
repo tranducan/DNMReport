@@ -35,12 +35,20 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.5.0.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
     <Reference Include="Interop.JMP">
       <HintPath>..\..\..\..\..\..\Dev\DNMReport\DNMReport\bin\Debug\Interop.JMP.dll</HintPath>
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -61,12 +69,49 @@
     </ApplicationDefinition>
     <Compile Include="Controller\ControllerJMP.cs" />
     <Compile Include="Controller\ControllerJobs.cs" />
+    <Compile Include="Controller\ControllerReportTask.cs" />
     <Compile Include="Logfile\SystemLog.cs" />
+    <Compile Include="Model\DNMReport.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DNMReport.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\DNMReport.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DNMReport.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\DNMReport.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DNMReport.edmx</DependentUpon>
+    </Compile>
     <Compile Include="Model\Jobs.cs" />
     <Compile Include="Model\JobsDisplay.cs" />
+    <Compile Include="Model\ReportProfile.cs">
+      <DependentUpon>DNMReport.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\ReportSchedule.cs">
+      <DependentUpon>DNMReport.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\ReportTask.cs">
+      <DependentUpon>DNMReport.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\ScheduleAction.cs">
+      <DependentUpon>DNMReport.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\ScheduleJob.cs" />
+    <Compile Include="Model\ScheduleTrigger.cs">
+      <DependentUpon>DNMReport.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\StaticConfigurationcs.cs" />
     <Compile Include="Model\TaskProfile.cs" />
+    <Compile Include="Util\EventBroker.cs" />
+    <Compile Include="Util\FileInfo.cs" />
+    <Compile Include="Util\IFileService.cs" />
+    <Compile Include="Util\ServiceDisk.cs" />
+    <Compile Include="Util\ServiceFtp.cs" />
+    <Compile Include="Util\SystemLog.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -101,6 +146,14 @@
     <None Include="JMP file\Rerun X.jmp">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <EntityDeploy Include="Model\DNMReport.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>DNMReport.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="Model\DNMReport.edmx.diagram">
+      <DependentUpon>DNMReport.edmx</DependentUpon>
+    </None>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -116,6 +169,19 @@
     <Content Include="JMP file\Test Script.jsl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Model\DNMReport.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>DNMReport.edmx</DependentUpon>
+      <LastGenOutput>DNMReport.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Model\DNMReport.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>DNMReport.edmx</DependentUpon>
+      <LastGenOutput>DNMReport.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
